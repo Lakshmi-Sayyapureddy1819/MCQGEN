@@ -1,1 +1,6 @@
-
+MCQ,Choices,Correct
+Which machine learning algorithm is primarily used for dimensionality reduction?,a: K-Nearest Neighbors | b: Principal Component Analysis | c: Support Vector Machines | d: Logistic Regression,b
+"In supervised learning, what is the role of labeled data?","a: To evaluate the model's performance on unseen data | b: To train the model to predict outcomes for new, unlabeled data | c: To cluster data points based on similarity | d: To reduce the dimensionality of the data",b
+"What type of neural network is particularly well-suited for processing sequential data, such as text or time series?",a: Convolutional Neural Network (CNN) | b: Recurrent Neural Network (RNN) | c: Radial Basis Function Network (RBFN) | d: Self-Organizing Map (SOM),b
+Which evaluation metric is commonly used to assess the performance of a classification model by considering the trade-off between true positive rate and false positive rate?,a: Precision | b: Recall | c: F1-score | d: AUC-ROC,d
+What phenomenon occurs when a machine learning model performs extremely well on the training data but poorly on unseen data?,a: Underfitting | b: Overfitting | c: Convergence | d: Regularization,b
