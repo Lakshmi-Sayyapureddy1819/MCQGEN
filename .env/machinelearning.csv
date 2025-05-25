@@ -1,6 +1,6 @@
 MCQ,Choices,Correct,Batch
-Which of the following is NOT a type of machine learning?,a: Supervised Learning | b: Unsupervised Learning | c: Reinforcement Learning | d: Deterministic Learning,d,Prompt3
-What is overfitting in machine learning?,a: The model performs well on training data but poorly on unseen data | b: The model performs poorly on both training and unseen data | c: The model performs well on both training and unseen data | d: The model is too simple to learn the underlying patterns,a,Prompt3
-Which algorithm is commonly used for clustering?,a: Linear Regression | b: Logistic Regression | c: K-Means | d: Support Vector Machines,c,Prompt3
+Which of these is NOT a type of machine learning?,a: Supervised Learning | b: Unsupervised Learning | c: Reinforcement Learning | d: Deterministic Learning,d,Prompt3
 A confusion matrix is used to evaluate the performance of which type of model?,a: Regression | b: Clustering | c: Classification | d: Dimensionality Reduction,c,Prompt3
-What does 'gradient descent' do in machine learning?,a: Classifies data points into different categories | b: Reduces the dimensionality of the data | c: Finds the optimal values for model parameters | d: Clusters similar data points together,c,Prompt3
+What does 'overfitting' mean in machine learning?,a: The model performs well on training data but poorly on unseen data. | b: The model performs poorly on both training and unseen data. | c: The model performs well on unseen data but poorly on training data. | d: The model is too simple to capture the complexity of the data.,a,Prompt3
+Which algorithm is commonly used for dimensionality reduction?,a: Linear Regression | b: Principal Component Analysis (PCA) | c: K-Nearest Neighbors (KNN) | d: Support Vector Machines (SVM),b,Prompt3
+"In a decision tree, what represents the features of the dataset?",a: Leaves | b: Branches | c: Root | d: Nodes,d,Prompt3
