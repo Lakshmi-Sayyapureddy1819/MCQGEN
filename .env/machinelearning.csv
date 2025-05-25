@@ -1,6 +1,6 @@
-MCQ,Choices,Correct
-Which machine learning algorithm is primarily used for dimensionality reduction?,a: K-Nearest Neighbors | b: Principal Component Analysis | c: Support Vector Machines | d: Logistic Regression,b
-"In supervised learning, what is the role of labeled data?","a: To evaluate the model's performance on unseen data | b: To train the model to predict outcomes for new, unlabeled data | c: To cluster data points based on similarity | d: To reduce the dimensionality of the data",b
-"What type of neural network is particularly well-suited for processing sequential data, such as text or time series?",a: Convolutional Neural Network (CNN) | b: Recurrent Neural Network (RNN) | c: Radial Basis Function Network (RBFN) | d: Self-Organizing Map (SOM),b
-Which evaluation metric is commonly used to assess the performance of a classification model by considering the trade-off between true positive rate and false positive rate?,a: Precision | b: Recall | c: F1-score | d: AUC-ROC,d
-What phenomenon occurs when a machine learning model performs extremely well on the training data but poorly on unseen data?,a: Underfitting | b: Overfitting | c: Convergence | d: Regularization,b
+MCQ,Choices,Correct,Batch
+Which of the following is NOT a type of machine learning?,a: Supervised Learning | b: Unsupervised Learning | c: Reinforcement Learning | d: Deterministic Learning,d,Prompt3
+What is overfitting in machine learning?,a: The model performs well on training data but poorly on unseen data | b: The model performs poorly on both training and unseen data | c: The model performs well on both training and unseen data | d: The model is too simple to learn the underlying patterns,a,Prompt3
+Which algorithm is commonly used for clustering?,a: Linear Regression | b: Logistic Regression | c: K-Means | d: Support Vector Machines,c,Prompt3
+A confusion matrix is used to evaluate the performance of which type of model?,a: Regression | b: Clustering | c: Classification | d: Dimensionality Reduction,c,Prompt3
+What does 'gradient descent' do in machine learning?,a: Classifies data points into different categories | b: Reduces the dimensionality of the data | c: Finds the optimal values for model parameters | d: Clusters similar data points together,c,Prompt3
