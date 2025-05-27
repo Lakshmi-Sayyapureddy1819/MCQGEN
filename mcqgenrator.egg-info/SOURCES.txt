@@ -5,5 +5,8 @@ mcqgenrator.egg-info/SOURCES.txt
 mcqgenrator.egg-info/dependency_links.txt
 mcqgenrator.egg-info/requires.txt
 mcqgenrator.egg-info/top_level.txt
+src/StreamLitAPP.py
 src/__init__.py
 src/mcqgenerator/__init__.py
+src/mcqgenerator/logger.py
+src/mcqgenerator/utils.py

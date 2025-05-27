@@ -1,4 +1,4 @@
-Metadata-Version: 2.4
+Metadata-Version: 2.1
 Name: mcqgenrator
 Version: 0.0.1
 Author: Lakshmi  Sayyapureddy
@@ -8,6 +8,3 @@ Requires-Dist: langchain
 Requires-Dist: streamlit
 Requires-Dist: python-dotenv
 Requires-Dist: PyPDF2
-Dynamic: author
-Dynamic: author-email
-Dynamic: requires-dist

@@ -1,1 +1,104 @@
- 
+import os
+import json
+import traceback
+import pandas as pd
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+# Load utility functions and logger (assuming these are in your project structure)
+from src.mcqgenerator.utils import read_file, get_table_data
+from src.mcqgenerator.logger import logging
+
+# Load API Key
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# Configure Gemini
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel("gemini-pro")
+
+
+def generate_mcq(text, number, subject, tone, response_json_template):
+    prompt = f"""
+Text: {text}
+
+You are an expert MCQ maker. Given the above text, it is your job to \
+create a quiz of {number} multiple choice questions for {subject} students in a {tone} tone. 
+Make sure the questions are not repeated and check all the questions conform to the text as well.
+Make sure to format your response like RESPONSE_JSON below and use it as a guide.
+Ensure to make {number} MCQs.
+
+### RESPONSE_JSON
+{response_json_template}
+"""
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        logging.error("Error generating MCQ: " + str(e))
+        traceback.print_exc()
+        return str(e)
+
+
+def evaluate_mcq(quiz_text, subject):
+    prompt = f"""
+You are an expert English grammarian and writer. Given a Multiple Choice Quiz for {subject} students, \
+you need to evaluate the complexity of the questions and give a complete analysis of the quiz. \
+Only use at max 50 words for complexity analysis. If the quiz is not aligned with the cognitive and analytical abilities \
+of the students, update the questions that need to be changed and adjust the tone accordingly.
+
+Quiz_MCQs:
+{quiz_text}
+
+Check from an expert English Writer of the above quiz:
+"""
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        logging.error("Error reviewing quiz: " + str(e))
+        traceback.print_exc()
+        return str(e)
+
+
+def generate_and_review_mcq(text, number, subject, tone, response_json_template):
+    logging.info("Generating quiz...")
+    quiz = generate_mcq(text, number, subject, tone, response_json_template)
+    
+    logging.info("Reviewing quiz...")
+    review = evaluate_mcq(quiz, subject)
+    
+    return {
+        "quiz": quiz,
+        "review": review
+    }
+
+
+# Sample usage
+if __name__ == "__main__":
+    sample_text = """
+Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods 
+from carbon dioxide and water. Photosynthesis in plants generally involves the green pigment chlorophyll and 
+generates oxygen as a by-product.
+"""
+    number = 5
+    subject = "Biology"
+    tone = "academic"
+    response_json_template = """
+{
+  "questions": [
+    {
+      "question": "What is the primary pigment involved in photosynthesis?",
+      "options": ["Chlorophyll", "Hemoglobin", "Myoglobin", "Keratin"],
+      "answer": "Chlorophyll"
+    }
+  ]
+}
+"""
+
+    result = generate_and_review_mcq(sample_text, number, subject, tone, response_json_template)
+    
+    print("===== GENERATED QUIZ =====")
+    print(result["quiz"])
+    print("\n===== QUIZ REVIEW =====")
+    print(result["review"])
