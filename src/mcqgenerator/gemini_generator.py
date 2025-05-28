@@ -1,10 +1,14 @@
 import google.generativeai as genai
 import os
 
-def generate_mcq_with_gemini(text, prompt, number=5, subject=None, tone=None, response_format=None):
-    model = genai.GenerativeModel("gemini-pro")
-    
-    # Compose the full prompt, including subject, tone, and response_format if provided
+def generate_mcq_with_gemini(text, number=5, subject=None, tone=None, response_format=None, gemini_api_key=None):
+    # Prefer explicit key, fallback to env
+    api_key = gemini_api_key or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        raise ValueError("No Gemini API key provided or found in environment.")
+    genai.configure(api_key=api_key)
+
+    model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
     full_prompt = f"""
     Generate {number} multiple choice questions (MCQs) from the following text.
     Subject: {subject if subject else 'N/A'}
@@ -15,6 +19,5 @@ def generate_mcq_with_gemini(text, prompt, number=5, subject=None, tone=None, re
     Text:
     {text}
     """
-
     response = model.generate_content(full_prompt)
     return response.text
