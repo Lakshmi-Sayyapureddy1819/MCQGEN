@@ -1,0 +1,32 @@
+{
+  "1": {
+    "mcq": "Which planet is known as the Red Planet?",
+    "options": {
+      "A": "Earth",
+      "B": "Venus",
+      "C": "Mars",
+      "D": "Jupiter"
+    },
+    "correct": "C"
+  },
+  "2": {
+    "mcq": "What is the chemical symbol for water?",
+    "options": {
+      "A": "O2",
+      "B": "CO2",
+      "C": "H2O",
+      "D": "NaCl"
+    },
+    "correct": "C"
+  },
+  "3": {
+    "mcq": "Who wrote the play 'Romeo and Juliet'?",
+    "options": {
+      "A": "William Wordsworth",
+      "B": "William Shakespeare",
+      "C": "George Bernard Shaw",
+      "D": "Jane Austen"
+    },
+    "correct": "B"
+  }
+}
