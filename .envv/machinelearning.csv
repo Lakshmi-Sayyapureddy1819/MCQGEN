@@ -1,6 +1,0 @@
-MCQ,Choices,Correct,Batch
-Which of the following is NOT a type of machine learning?,a: Supervised Learning | b: Unsupervised Learning | c: Reinforcement Learning | d: Deterministic Learning,d,Prompt3
-What is overfitting in machine learning?,a: The model performs well on training data but poorly on unseen data | b: The model performs poorly on both training and unseen data | c: The model performs well on both training and unseen data | d: The model performs poorly on training data but well on unseen data,a,Prompt3
-Which algorithm is commonly used for clustering?,a: Linear Regression | b: Logistic Regression | c: K-Means | d: Support Vector Machines,c,Prompt3
-A confusion matrix is used to evaluate the performance of which type of model?,a: Regression | b: Clustering | c: Classification | d: Dimensionality Reduction,c,Prompt3
-What does 'Gradient Descent' do in machine learning?,a: Classifies data points into different categories | b: Reduces the dimensionality of the data | c: Finds the optimal parameters of a model to minimize a cost function | d: Predicts continuous values based on input features,c,Prompt3
