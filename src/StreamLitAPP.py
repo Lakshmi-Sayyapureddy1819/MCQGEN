@@ -7,7 +7,7 @@ import streamlit as st
 from io import StringIO, BytesIO
 from fpdf import FPDF
 from dotenv import load_dotenv
-from src.mcqgenerator.gemini_generator import generate_mcq_with_gemini
+from mcqgenerator.gemini_generator import generate_mcq_with_gemini
 
 # Ensure src is in the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

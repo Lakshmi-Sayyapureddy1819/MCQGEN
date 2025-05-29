@@ -1,5 +1,5 @@
 import os
-import google.generativeai as genai
+import google.generativeai as genai # type: ignore
 
 def generate_mcq_with_gemini(
     text,
