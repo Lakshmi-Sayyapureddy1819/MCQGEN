@@ -120,6 +120,7 @@ if button and uploaded_file and mcq_count and subject and tone:
             traceback.print_exception(type(e), e, e.__traceback__)
             st.error("An error occurred while generating MCQs")
         else:
+            st.write("Parsed quiz object:", quiz)
             table_data = get_table_data(quiz)
             if table_data:
                 df = pd.DataFrame(table_data)

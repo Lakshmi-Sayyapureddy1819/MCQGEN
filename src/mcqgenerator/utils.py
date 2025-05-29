@@ -13,26 +13,23 @@ def read_file(uploaded_file):
     else:
         return ""
 
-def get_table_data(response_text_or_json):
-    try:
-        if isinstance(response_text_or_json, str):
-            response_json = json.loads(response_text_or_json)
-        else:
-            response_json = response_text_or_json
+def get_table_data(quiz):
+    table = []
+    for qid, entry in quiz.items():
+        mcq = entry.get("mcq", "")
+        options = " | ".join([f"{k}: {v}" for k, v in entry.get("options", {}).items()])
+        correct = entry.get("correct", "")
+        table.append({"MCQ": mcq, "Choices": options, "Correct": correct})
+    return table
 
-        table = []
-        for item in response_json.get("questions", []):
-            question = item.get("question", "")
-            options = item.get("options", [])
-            answer = item.get("answer", "")
+# Example usage with the suggested code change
+quiz_data = {
+    "1": {
+        "mcq": "What is ...?",
+        "options": {"a": "...", "b": "...", "c": "...", "d": "..."},
+        "correct": "a"
+    }
+}
 
-            option_str = ", ".join([f"{chr(65 + i)}. {opt}" for i, opt in enumerate(options)])
-            table.append({
-                "MCQ": question,
-                "Choices": option_str,
-                "Correct": answer
-            })
-        return table
-    except Exception as e:
-        print("Parsing error:", e)
-        return None
+table_data = get_table_data(quiz_data)
+print(table_data)

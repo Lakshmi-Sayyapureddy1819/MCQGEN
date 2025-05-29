@@ -12,7 +12,18 @@ def generate_mcq_with_gemini(text, number, subject, tone, response_format, gemin
     Generate {number} MCQs on the subject '{subject}' with a '{tone}' tone.
     Return ONLY valid JSON in this format, no explanation, no markdown:
 
-    {response_format}
+    {{
+      "1": {{
+        "mcq": "Sample question?",
+        "options": {{
+          "a": "Option A",
+          "b": "Option B",
+          "c": "Option C",
+          "d": "Option D"
+        }},
+        "correct": "a"
+      }}
+    }}
 
     TEXT:
     {text}
