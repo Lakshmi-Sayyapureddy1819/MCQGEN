@@ -1,49 +1,38 @@
-import os
-import PyPDF2
 import json
-import traceback
 from PyPDF2 import PdfReader
-from io import BytesIO
 
-def read_file(file):
-    if file.name.endswith(".pdf"):
-        try:
-            pdf_reader = PdfReader(BytesIO(file.read()))
-            text = ""
-            for page in pdf_reader.pages:
-                text += page.extract_text()
-            return text
-        except Exception as e:
-            raise Exception("Error reading the PDF file: " + str(e))
-    elif file.name.endswith(".txt"):
-        return file.read().decode("utf-8")
+def read_file(uploaded_file):
+    if uploaded_file.name.endswith(".txt"):
+        return uploaded_file.read().decode("utf-8")
+    elif uploaded_file.name.endswith(".pdf"):
+        pdf = PdfReader(uploaded_file)
+        text = ""
+        for page in pdf.pages:
+            text += page.extract_text()
+        return text
     else:
-        raise Exception("Unsupported file format. Only PDF and TXT files are supported.")
+        return ""
 
-
-def get_table_data(quiz):
+def get_table_data(response_text_or_json):
     try:
-        # If `quiz` is a JSON string, parse it
-        if isinstance(quiz, str):
-            quiz = json.loads(quiz)
+        if isinstance(response_text_or_json, str):
+            response_json = json.loads(response_text_or_json)
+        else:
+            response_json = response_text_or_json
 
-        quiz_table_data = []
-        for item in quiz:
-            question = item.get("question", "N/A")
+        table = []
+        for item in response_json.get("questions", []):
+            question = item.get("question", "")
             options = item.get("options", [])
-            answer = item.get("answer", "N/A")
+            answer = item.get("answer", "")
 
-            options_str = " | ".join(
-                [f"{chr(65 + idx)}: {opt}" for idx, opt in enumerate(options)]
-            )
-
-            quiz_table_data.append({
+            option_str = ", ".join([f"{chr(65 + i)}. {opt}" for i, opt in enumerate(options)])
+            table.append({
                 "MCQ": question,
-                "Choices": options_str,
+                "Choices": option_str,
                 "Correct": answer
             })
-
-        return quiz_table_data
+        return table
     except Exception as e:
-        traceback.print_exception(type(e), e, e.__traceback__)
-        return False
+        print("Parsing error:", e)
+        return None

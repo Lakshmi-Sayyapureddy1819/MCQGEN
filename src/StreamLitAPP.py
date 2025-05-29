@@ -9,18 +9,14 @@ from fpdf import FPDF
 from dotenv import load_dotenv
 from mcqgenerator.gemini_generator import generate_mcq_with_gemini
 
-# Ensure src is in the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
-from src.mcqgenerator.utils import read_file, get_table_data
+from mcqgenerator.utils import read_file, get_table_data
 
-# Load environment variables from .env
 load_dotenv()
-#load json file
-with open(r'/workspaces/MCQGEN/response.json','r') as file:
+with open('response.json', 'r') as file:
     RESPONSE_JSON = json.load(file)
 
-# Gemini API Key
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 st.set_page_config(page_title="MCQ Creator with Gemini", layout="centered")
@@ -46,50 +42,48 @@ with st.form("user_inputs"):
                     gemini_api_key=GEMINI_API_KEY
                 )
 
+                if isinstance(quiz, str):
+                    st.write("Gemini raw output:", quiz)  # Debug output
+                    if quiz.strip() == "":
+                        st.error("Gemini API returned an empty response.")
+                        st.stop()
+                    try:
+                        quiz = json.loads(quiz)
+                    except Exception as e:
+                        st.error("Gemini API did not return valid JSON.")
+                        st.write(quiz)
+                        st.stop()
+
             except Exception as e:
                 traceback.print_exception(type(e), e, e.__traceback__)
                 st.error("An error occurred while generating MCQs")
             else:
-                if isinstance(quiz, dict):
-                    table_data = get_table_data(json.dumps(quiz))
-                    if table_data:
-                        df = pd.DataFrame(table_data)
-                        df.index = df.index + 1
-                        st.table(df)
+                table_data = get_table_data(quiz)
+                if table_data:
+                    df = pd.DataFrame(table_data)
+                    df.index += 1
+                    st.dataframe(df)
 
-                        # CSV download
-                        csv_buffer = StringIO()
-                        df.to_csv(csv_buffer, index=False)
-                        st.download_button("Download as CSV", csv_buffer.getvalue(), file_name="quiz.csv", mime="text/csv")
+                    csv_buffer = StringIO()
+                    df.to_csv(csv_buffer, index=False)
+                    st.download_button("Download as CSV", csv_buffer.getvalue(), file_name="quiz.csv", mime="text/csv")
 
-                        # JSON download
-                        st.download_button(
-                            label="Download as JSON",
-                            data=json.dumps(quiz, indent=4),
-                            file_name="quiz.json",
-                            mime="application/json"
-                        )
+                    excel_buffer = BytesIO()
+                    with pd.ExcelWriter(excel_buffer, engine='xlsxwriter') as writer:
+                        df.to_excel(writer, index=False, sheet_name='MCQs')
+                    st.download_button("Download as Excel", data=excel_buffer.getvalue(), file_name="quiz.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-                        # PDF download
-                        pdf = FPDF()
-                        pdf.add_page()
-                        pdf.set_font("Arial", size=12)
-                        for idx, row in df.iterrows():
-                            pdf.multi_cell(0, 10, f"Q{idx}. {row['MCQ']}")
-                            pdf.multi_cell(0, 10, f"Options: {row['Choices']}")
-                            pdf.multi_cell(0, 10, f"Answer: {row['Correct']}")
-                            pdf.ln()
+                    pdf = FPDF()
+                    pdf.add_page()
+                    pdf.set_font("Arial", size=12)
+                    for idx, row in df.iterrows():
+                        pdf.multi_cell(0, 10, f"Q{idx}. {row['MCQ']}")
+                        pdf.multi_cell(0, 10, f"Options: {row['Choices']}")
+                        pdf.multi_cell(0, 10, f"Answer: {row['Correct']}")
+                        pdf.ln()
 
-                        pdf_buffer = BytesIO()
-                        pdf.output(pdf_buffer)
-                        st.download_button(
-                            label="Download as PDF",
-                            data=pdf_buffer.getvalue(),
-                            file_name="quiz.pdf",
-                            mime="application/pdf"
-                        )
-                    else:
-                        st.error("Failed to parse quiz data into table format.")
+                    pdf_buffer = BytesIO()
+                    pdf.output(pdf_buffer)
+                    st.download_button("Download as PDF", data=pdf_buffer.getvalue(), file_name="quiz.pdf", mime="application/pdf")
                 else:
-                    st.write("Response from Gemini:")
-                    st.write(quiz)
+                    st.error("Failed to parse quiz data into table format.")
