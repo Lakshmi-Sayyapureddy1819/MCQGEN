@@ -4,12 +4,6 @@ python-dotenv
 PyPDF2
 pandas
 fpdf
-streamlit
 google-generativeai
 xlsxwriter
-
-
-
-
-
 -e .
